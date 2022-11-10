@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401440159884",
+    "project_id": "scheduling-app-ecf4e",
+    "storage_bucket": "scheduling-app-ecf4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401440159884:android:3fd474b33cd8b23fb023a9",
+        "android_client_info": {
+          "package_name": "com.example.scheduling_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401440159884-l4bt9888tu73llat77iu0p3ll3f8jmfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu759yHydZfAC-ei-j3Yl80yGsPZSa0Jw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401440159884-l4bt9888tu73llat77iu0p3ll3f8jmfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
