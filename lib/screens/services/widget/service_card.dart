@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 
 import '../../collaborators/collaborators_screen.dart';
 
 class ServiceCard extends StatelessWidget {
-  const ServiceCard(
+  ServiceCard(
       {Key? key,
       required this.id,
       required this.title,
       required this.description,
       required this.price,
-      required this.store,
-      required this.service})
+      required this.storeController})
       : super(key: key);
 
   final String id;
   final String title;
   final String description;
   final int price;
-  final String store;
-  final String service;
+
+  final StoreController storeController;
+  final serviceController = Get.put(ServiceController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +32,13 @@ class ServiceCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         child: InkWell(
           onTap: () {
+            ServiceController().buildServiceController(id, title, description, price, serviceController);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => CollaboratorsScreen(
-                  storeId: id,
-                  store: store,
-                  service: service,
+                  storeController: storeController,
+                  serviceController: serviceController,
                 ),
               ),
             );

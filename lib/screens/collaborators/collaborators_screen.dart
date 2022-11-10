@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 import 'package:scheduling_app/data/collaborator_service.dart';
 import 'package:scheduling_app/models/collaborator.dart';
 import 'package:scheduling_app/screens/collaborators/widget/collaborator_card.dart';
 
 class CollaboratorsScreen extends StatefulWidget {
-  const CollaboratorsScreen(
-      {super.key,
-      required this.storeId,
-      required this.service,
-      required this.store});
+  const CollaboratorsScreen({super.key, required this.storeController, required this.serviceController});
+
+  final StoreController storeController;
+  final ServiceController serviceController;
 
   @override
   State<CollaboratorsScreen> createState() => _MyHomePageState();
-
-  final String storeId;
-  final String store;
-  final String service;
 }
 
 class _MyHomePageState extends State<CollaboratorsScreen> {
@@ -26,7 +23,7 @@ class _MyHomePageState extends State<CollaboratorsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Collaborators')),
       body: StreamBuilder<List<Collaborator>>(
-          stream: collaboratorService.getAll(widget.storeId),
+          stream: collaboratorService.getAll(widget.storeController.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final collaborators = snapshot.data!;
@@ -44,9 +41,7 @@ class _MyHomePageState extends State<CollaboratorsScreen> {
         id: collaborator.id,
         image: collaborator.image,
         name: collaborator.name,
-        storeId: widget.storeId,
-        store: widget.store,
-        collaborator: collaborator.name,
-        service: widget.service,
+        storeController: widget.storeController,
+        serviceController: widget.serviceController,
       );
 }

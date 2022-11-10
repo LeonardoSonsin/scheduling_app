@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scheduling_app/controllers/collaborator_controller.dart';
+import 'package:scheduling_app/controllers/hour_table_controller.dart';
+import 'package:scheduling_app/controllers/month_table_controller.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 import 'package:scheduling_app/data/hourtable_service.dart';
 import 'package:scheduling_app/screens/scheduling_resume/scheduling_resume_screen.dart';
 
 class HourTableCard extends StatelessWidget {
-  const HourTableCard(
+  HourTableCard(
       {Key? key,
-      required this.storeId,
-      required this.collaboratorId,
-      required this.monthTableId,
-      required this.hoursId,
-      required this.store,
-      required this.collaborator,
-      required this.service,
-      required this.day,
+      required this.id,
       required this.hour,
-      required this.available})
+      required this.available,
+      required this.storeController,
+      required this.serviceController,
+      required this.collaboratorController,
+      required this.monthTableController})
       : super(key: key);
 
-  final String storeId;
-  final String collaboratorId;
-  final String monthTableId;
-  final String hoursId;
-
-  final String store;
-  final String collaborator;
-  final String service;
-  final String day;
+  final String id;
   final String hour;
   final bool available;
+
+  final StoreController storeController;
+  final ServiceController serviceController;
+  final CollaboratorController collaboratorController;
+  final MonthTableController monthTableController;
+
+  final hourTableController = Get.put(HourTableController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +40,26 @@ class HourTableCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         child: InkWell(
           onLongPress: () {
-            HourTableService().updateAvailable(storeId, collaboratorId, monthTableId, hoursId, true);
+            HourTableService().updateAvailable(storeController.id,
+                collaboratorController.id, monthTableController.id, id, true);
           },
           onTap: () {
-            available
-                ? Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SchedulingResumeScreen(
-                        storeId: storeId,
-                        collaboratorId: collaboratorId,
-                        monthTableId: monthTableId,
-                        hoursId: hoursId,
-                        store: store,
-                        collaborator: collaborator,
-                        service: service,
-                        day: day,
-                        hour: hour,
-                      ),
-                    ),
-                  )
-                : null;
+            if (available) {
+              hourTableController.buildHourTableController(
+                  id, hour, available, hourTableController);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SchedulingResumeScreen(
+                    storeController: storeController,
+                    serviceController: serviceController,
+                    collaboratorController: collaboratorController,
+                    monthTableController: monthTableController,
+                    hourTableController: hourTableController,
+                  ),
+                ),
+              );
+            }
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

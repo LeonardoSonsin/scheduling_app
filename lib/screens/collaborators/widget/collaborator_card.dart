@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scheduling_app/controllers/collaborator_controller.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 
 import '../../month_table/month_table_screen.dart';
 
 class CollaboratorCard extends StatelessWidget {
-  const CollaboratorCard(
+  CollaboratorCard(
       {Key? key,
       required this.image,
       required this.name,
       required this.id,
-      required this.storeId,
-      required this.store,
-      required this.collaborator,
-      required this.service})
+      required this.storeController,
+      required this.serviceController})
       : super(key: key);
 
   final String id;
   final String image;
   final String name;
-  final String storeId;
 
-  final String store;
-  final String collaborator;
-  final String service;
+  final StoreController storeController;
+  final ServiceController serviceController;
+  final collaboratorController = Get.put(CollaboratorController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +33,14 @@ class CollaboratorCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         child: InkWell(
           onTap: () {
+            collaboratorController.buildCollaboratorController(id, name, image, collaboratorController);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => MonthTableScreen(
-                  collaboratorId: id,
-                  storeId: storeId,
-                  store: store,
-                  collaborator: collaborator,
-                  service: service,
+                  storeController: storeController,
+                  serviceController: serviceController,
+                  collaboratorController: collaboratorController,
                 ),
               ),
             );

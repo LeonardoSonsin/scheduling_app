@@ -4,8 +4,7 @@ import 'package:scheduling_app/models/scheduling.dart';
 import 'package:scheduling_app/screens/scheduling/widget/scheduling_card.dart';
 
 class SchedulingScreen extends StatefulWidget {
-  const SchedulingScreen(
-      {super.key});
+  const SchedulingScreen({super.key});
 
   @override
   State<SchedulingScreen> createState() => _MyHomePageState();
@@ -13,6 +12,7 @@ class SchedulingScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<SchedulingScreen> {
   SchedulingService schedulingService = SchedulingService();
+
 
   @override
   Widget build(BuildContext context) {

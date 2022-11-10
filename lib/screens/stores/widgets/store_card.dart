@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 import 'package:scheduling_app/screens/services/services_screen.dart';
 
 class StoreCard extends StatelessWidget {
-  const StoreCard(
+  StoreCard(
       {Key? key,
       required this.id,
       required this.image,
@@ -17,6 +19,8 @@ class StoreCard extends StatelessWidget {
   final String phone;
   final String address;
 
+  final storeController = Get.put(StoreController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,12 +31,12 @@ class StoreCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         child: InkWell(
           onTap: () {
+            StoreController().buildStoreController(id, name, image, address, phone, storeController);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => ServicesScreen(
-                  store: name,
-                  storeId: id,
+                  storeController: storeController,
                 ),
               ),
             );

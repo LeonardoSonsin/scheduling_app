@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:scheduling_app/controllers/collaborator_controller.dart';
+import 'package:scheduling_app/controllers/month_table_controller.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 
 import '../../hour_table/hour_table_screen.dart';
 
 class MonthTableCard extends StatelessWidget {
-  MonthTableCard(
-      {Key? key,
-      required this.storeId,
-      required this.collaboratorId,
-      required this.monthTableId,
-      required this.index,
-      required this.store,
-      required this.collaborator,
-      required this.service})
+  MonthTableCard({Key? key, required this.id,
+    required this.index, required this.storeController, required this.serviceController, required this.collaboratorController,})
       : super(key: key);
 
-  final String storeId;
-  final String collaboratorId;
-  final String monthTableId;
+  final String id;
   final int index;
 
-  final String store;
-  final String collaborator;
-  final String service;
+  final StoreController storeController;
+  final ServiceController serviceController;
+  final CollaboratorController collaboratorController;
+  final monthTableController = Get.put(MonthTableController());
 
   final DateTime today = DateTime.now();
 
@@ -35,20 +32,18 @@ class MonthTableCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
         child: InkWell(
           onTap: () {
+            monthTableController.buildCollaboratorController(id, index, monthTableController);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HourTableScreen(
-                  storeId: storeId,
-                  collaboratorId: collaboratorId,
-                  monthTableId: monthTableId,
-                  store: store,
-                  collaborator: collaborator,
-                  service: service,
-                  day: DateFormat('dd/MM').format(today.add(Duration(days: index))),
-                ),
+                builder: (context) =>
+                    HourTableScreen(
+                        storeController: storeController,
+                        collaboratorController: collaboratorController,
+                        serviceController: serviceController,
+                        monthTableController: monthTableController,
               ),
-            );
+            ),);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -58,14 +53,18 @@ class MonthTableCard extends StatelessWidget {
                 title: Row(
                   children: [
                     Text(
-                      "${DateFormat('dd/MM').format(today.add(Duration(days: index)))} - ${DateFormat('EEEE').format(today.add(Duration(days: index)))}",
+                      "${DateFormat('dd/MM').format(
+                          today.add(Duration(days: index)))} - ${DateFormat(
+                          'EEEE').format(today.add(Duration(days: index)))}",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     Text(
-                      "${DateFormat('dd/MM').format(today.add(Duration(days: index)))} - ${DateFormat('EEEE').format(today.add(Duration(days: index)))}",
+                      "${DateFormat('dd/MM').format(
+                          today.add(Duration(days: index)))} - ${DateFormat(
+                          'EEEE').format(today.add(Duration(days: index)))}",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scheduling_app/controllers/collaborator_controller.dart';
+import 'package:scheduling_app/controllers/month_table_controller.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 import 'package:scheduling_app/screens/hour_table/widget/hour_table_card.dart';
 import '../../data/hourtable_service.dart';
 import '../../models/hourtable.dart';
@@ -6,25 +10,18 @@ import '../../models/hourtable.dart';
 class HourTableScreen extends StatefulWidget {
   const HourTableScreen(
       {super.key,
-      required this.storeId,
-      required this.collaboratorId,
-      required this.monthTableId,
-      required this.store,
-      required this.collaborator,
-      required this.service,
-      required this.day});
+      required this.storeController,
+      required this.serviceController,
+      required this.collaboratorController,
+      required this.monthTableController});
+
+  final StoreController storeController;
+  final ServiceController serviceController;
+  final CollaboratorController collaboratorController;
+  final MonthTableController monthTableController;
 
   @override
   State<HourTableScreen> createState() => _MyHomePageState();
-
-  final String storeId;
-  final String collaboratorId;
-  final String monthTableId;
-
-  final String store;
-  final String collaborator;
-  final String service;
-  final String day;
 }
 
 class _MyHomePageState extends State<HourTableScreen> {
@@ -35,8 +32,8 @@ class _MyHomePageState extends State<HourTableScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('HourTable')),
       body: StreamBuilder<List<HourTable>>(
-          stream: hourTableService.getAll(
-              widget.storeId, widget.collaboratorId, widget.monthTableId),
+          stream: hourTableService.getAll(widget.storeController.id,
+              widget.collaboratorController.id, widget.monthTableController.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final hours = snapshot.data!;
@@ -51,15 +48,12 @@ class _MyHomePageState extends State<HourTableScreen> {
   }
 
   Widget buildTimeTableCard(HourTable hourTable) => HourTableCard(
-        store: widget.store,
-        collaborator: widget.collaborator,
-        service: widget.service,
-        day: widget.day,
+        id: hourTable.id,
         hour: hourTable.hour,
         available: hourTable.available,
-        storeId: widget.storeId,
-        collaboratorId: widget.collaboratorId,
-        monthTableId: widget.monthTableId,
-        hoursId: hourTable.id,
+        storeController: widget.storeController,
+        serviceController: widget.serviceController,
+        collaboratorController: widget.collaboratorController,
+        monthTableController: widget.monthTableController,
       );
 }

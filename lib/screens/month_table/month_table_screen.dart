@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:scheduling_app/controllers/collaborator_controller.dart';
+import 'package:scheduling_app/controllers/service_controller.dart';
+import 'package:scheduling_app/controllers/store_controller.dart';
 import 'package:scheduling_app/data/monthtable_service.dart';
 import 'package:scheduling_app/models/monthtable.dart';
 import 'package:scheduling_app/screens/month_table/widget/month_table_card.dart';
 
 class MonthTableScreen extends StatefulWidget {
-  const MonthTableScreen(
-      {super.key,
-      required this.storeId,
-      required this.collaboratorId,
-      required this.store,
-      required this.service,
-      required this.collaborator});
+  const MonthTableScreen({super.key,required this.storeController,required this.collaboratorController,required this.serviceController});
+
+  final StoreController storeController;
+  final ServiceController serviceController;
+  final CollaboratorController collaboratorController;
 
   @override
   State<MonthTableScreen> createState() => _MyHomePageState();
-
-  final String storeId;
-  final String collaboratorId;
-
-  final String store;
-  final String collaborator;
-  final String service;
 }
 
 class _MyHomePageState extends State<MonthTableScreen> {
@@ -31,8 +25,7 @@ class _MyHomePageState extends State<MonthTableScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('MonthTable')),
       body: StreamBuilder<List<MonthTable>>(
-          stream:
-              monthTableService.getAll(widget.storeId, widget.collaboratorId),
+          stream: monthTableService.getAll(widget.storeController.id, widget.collaboratorController.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final hours = snapshot.data!;
@@ -47,12 +40,10 @@ class _MyHomePageState extends State<MonthTableScreen> {
   }
 
   Widget buildTimeTableCard(MonthTable monthTable) => MonthTableCard(
+        id: monthTable.id,
         index: monthTable.index,
-        storeId: widget.storeId,
-        collaboratorId: widget.collaboratorId,
-        monthTableId: monthTable.id,
-        store: widget.store,
-        collaborator: widget.collaborator,
-        service: widget.service,
+        storeController: widget.storeController,
+        collaboratorController: widget.collaboratorController,
+        serviceController: widget.serviceController,
       );
 }

@@ -37,8 +37,7 @@ class SchedulingCard extends StatelessWidget {
                 title: Text(store,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18)),
-                subtitle: const Text(
-                    '(14) 3434-3597 \nRua Amazonas, 55\nCascata - Marília - SP',
+                subtitle: const Text('(14) 3434-3597 \nRua Amazonas, 55\nCascata - Marília - SP',
                     style: TextStyle(fontSize: 14)),
               ),
             ),
